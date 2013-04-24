@@ -23,11 +23,11 @@ class Hiera
 
         coll = @db.collection(key)
         data = {} 
-        coll.find.each  begin |row|
+        coll.find.each do |row|
             row.delete('_id') # filter Mongo internal key
             data.update(row) 
         end
-        data.empty? ? nil : data
+        data = data.empty? ? nil:data
         # Mongo do lookups for us and validate them
         # just pass data object as answer
         new_answer = data
