@@ -9,7 +9,7 @@ class Hiera
         Hiera.debug("Hiera Mongodb backend starting")
         config_uri = Backend.datadir('mongo', '')
         mongo_uri = config_uri unless not config_uri.include? "mongodb://"
-	mongo_client = Mongo::MongoClient.from_uri(uri = mongo_uri)
+        mongo_client = Mongo::MongoClient.from_uri(uri = mongo_uri)
         @db = mongo_client.db("hiera")
       end
 
@@ -19,15 +19,15 @@ class Hiera
         Hiera.debug("Looking up #{key} in Mongodb backend")
 
         Backend.datasources(scope, order_override) do |source|
-         Hiera.debug("Looking for data source #{source}")
+            Hiera.debug("Looking for data source #{source}")
 
         coll = @db.collection(key)
-        data = nil # return nil if there is no results from Mongo
-        coll.find.each  { |row|
-          data = {} unless not data.nil?
-          row.delete_if{|key, value| key == '_id'}
-          data.update(row) 
-        }
+        data = {} 
+        coll.find.each  begin |row|
+            row.delete('_id') # filter Mongo internal key
+            data.update(row) 
+        end
+        data.empty? ? nil : data
         # Mongo do lookups for us and validate them
         # just pass data object as answer
         new_answer = data
