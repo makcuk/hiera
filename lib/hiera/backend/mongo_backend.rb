@@ -2,14 +2,14 @@ class Hiera
   module Backend
     class Mongo_backend
       def initialize(cache=nil)
-    		require 'rubygems' # backward compatibility
+    	require 'rubygems' # backward compatibility
         require 'mongo'
 
         mongo_uri = "mongodb://localhost:27017/hiera"
         Hiera.debug("Hiera Mongodb backend starting")
         config_uri = Backend.datadir('mongo', '')
         mongo_uri = config_uri unless not config_uri.include? "mongodb://"
-	    	mongo_client = Mongo::MongoClient.from_uri(uri = mongo_uri)
+	mongo_client = Mongo::MongoClient.from_uri(uri = mongo_uri)
         @db = mongo_client.db("hiera")
       end
 
