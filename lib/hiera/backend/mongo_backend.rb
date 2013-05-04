@@ -29,18 +29,17 @@ class Hiera
           data = nil if data.empty?
           # Mongo do lookups for us and validate them
           # just pass data object as answer
-          new_answer = data
           case resolution_type
             when :array
-              raise Exception, "Hiera type mismatch: expected Array and got #{new_answer.class}" unless new_answer.kind_of? Array or new_answer.kind_of? String
+              raise Exception, "Hiera type mismatch: expected Array and got #{data.class}" unless data.kind_of? Array or data.kind_of? String
               answer ||= []
-              answer << new_answer
+              answer << data
             when :hash
-              raise Exception, "Hiera type mismatch: expected Hash and got #{new_answer.class}" unless new_answer.kind_of? Hash
+              raise Exception, "Hiera type mismatch: expected Hash and got #{data.class}" unless data.kind_of? Hash
               answer ||= {}
-              answer = Backend.merge_answer(new_answer,answer)
+              answer = Backend.merge_answer(data,answer)
             else
-              answer = new_answer
+              answer = data
               break
           end
         end
