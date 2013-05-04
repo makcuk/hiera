@@ -26,7 +26,7 @@ class Hiera
           coll.find({}, {:fields => {'_id' => 0}}).each do |row|
             data.update(row)
           end
-          data = data.empty? ? nil:data
+          data = nil if data.empty?
           # Mongo do lookups for us and validate them
           # just pass data object as answer
           new_answer = data
