@@ -23,8 +23,7 @@ class Hiera
 
           coll = @db.collection(key)
           data = {}
-          coll.find.each do |row|
-            row.delete('_id') # filter Mongo internal key
+          coll.find({}, {:fields => {'_id' => 0}}).each do |row|
             data.update(row)
           end
           data = data.empty? ? nil:data
