@@ -2,7 +2,7 @@ class Hiera
   module Backend
     class Mongo_backend
       def initialize(cache=nil)
-    	require 'rubygems' # backward compatibility
+        require 'rubygems' # backward compatibility
         require 'mongo'
 
         mongo_uri = "mongodb://localhost:27017/hiera"
@@ -19,19 +19,19 @@ class Hiera
         Hiera.debug("Looking up #{key} in Mongodb backend")
 
         Backend.datasources(scope, order_override) do |source|
-            Hiera.debug("Looking for data source #{source}")
+          Hiera.debug("Looking for data source #{source}")
 
-        coll = @db.collection(key)
-        data = {} 
-        coll.find.each do |row|
+          coll = @db.collection(key)
+          data = {}
+          coll.find.each do |row|
             row.delete('_id') # filter Mongo internal key
-            data.update(row) 
-        end
-        data = data.empty? ? nil:data
-        # Mongo do lookups for us and validate them
-        # just pass data object as answer
-        new_answer = data
-            case resolution_type
+            data.update(row)
+          end
+          data = data.empty? ? nil:data
+          # Mongo do lookups for us and validate them
+          # just pass data object as answer
+          new_answer = data
+          case resolution_type
             when :array
               raise Exception, "Hiera type mismatch: expected Array and got #{new_answer.class}" unless new_answer.kind_of? Array or new_answer.kind_of? String
               answer ||= []
@@ -43,11 +43,11 @@ class Hiera
             else
               answer = new_answer
               break
-            end
           end
+        end
 
         return answer
       end
     end
-end
+  end
 end
