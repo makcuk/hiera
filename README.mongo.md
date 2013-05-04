@@ -51,10 +51,10 @@ class service_gateways {
                 $services = keys($gways)
                 notice(keys($gways))
                 define svc::control($params) {
-                service { $name:
-                    enable => $params[$name]['enabled'],
-                                        ensure => $params[$name]['running'],
-                }
+                    service { $name:
+                        enable => $params[$name]['enabled'],
+                        ensure => $params[$name]['running'],
+                    }
                 }
 
                 svc::control{$services: params => $gways}  # iterate over keys and feed defined class
