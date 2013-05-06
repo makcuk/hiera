@@ -23,7 +23,7 @@ class Hiera
 
           coll = @db.collection(key)
           data = {}
-          coll.find({}, {:fields => {'_id' => 0}}).each do |row|
+          coll.find({}, {:fields => {'_id' => 0}}) do |row|
             data.update(row)
           end
           data = nil if data.empty?
